@@ -1,0 +1,95 @@
+#include <iostream>
+#include <ctime>
+#include <stdlib.h>
+
+using namespace std;
+
+
+void insertionSort(int a[], int n, long long &count_compare, double &time)
+{
+	count_compare = 0;
+	clock_t start = clock();
+	int i, key, j;	
+	for (i = 1;++count_compare && i < n; i++)
+    {
+		key = a[i];
+    	j = i-1;
+		while ((++count_compare && j >= 0) && (++count_compare && a[j] > key))
+		{
+			a[j+1] = a[j];
+			j = j-1;
+		}
+		a[j+1] = key;
+
+	}
+	clock_t end = clock();
+	time = double(end-start)/CLOCKS_PER_SEC;
+}
+
+void heapify(int a[], int n, int i, long long &count_compare) 
+{ 
+    int largest = i;
+    int l = 2*i + 1; 
+    int r = 2*i + 2;
+  
+    if ((++count_compare && l < n ) && (++count_compare && a[l] > a[largest])) 
+        largest = l; 
+  
+    if ((++count_compare && r < n) && (++count_compare && a[r] > a[largest])) 
+        largest = r; 
+  
+    if (++count_compare && largest != i) 
+    { 
+        swap(a[i], a[largest]); 
+        
+        heapify(a, n, largest, count_compare); 
+    } 
+} 
+void heapSort(int a[], int n,long long &count_compare, double &time) 
+{ 
+	count_compare=0;
+	clock_t start = clock();
+    for (int i = n / 2 - 1;++count_compare && i >= 0; i--) 
+        heapify(a, n, i, count_compare); 
+  
+    for (int i=n-1;++count_compare && i>0; i--) 
+    { 
+        swap(a[0], a[i]); 
+  
+        heapify(a, i, 0, count_compare); 
+    } 	
+	clock_t end = clock();
+	time = double(end-start)/CLOCKS_PER_SEC;
+}
+void shakerSort(int *a,int n,long long &count_compare, double &time)
+{
+	count_compare=0;
+	clock_t start = clock();
+	int left=1,right=n-1,k=0;
+	do{
+		for(int i=right;++count_compare&&i>=left;i--)
+		{
+			if(++count_compare&&a[i-1]>a[i])
+			{
+				int c=a[i];
+				a[i]=a[i-1];
+				a[i-1]=c;
+				k=i;
+			}
+		}
+		left=k+1;
+		for(int i=left;++count_compare&&i<=right;i++)
+		{
+			if(++count_compare&&a[i-1]>a[i])
+			{
+				int c=a[i];
+				a[i]=a[i-1];
+				a[i-1]=c;
+				k=i;
+			}
+		}
+		right=k-1;
+	}while(++count_compare&&left<=right);
+	clock_t end = clock();
+	time = double(end-start)/CLOCKS_PER_SEC;
+}
